@@ -3,6 +3,8 @@
 
 
 #include "abcgOpenGL.hpp"
+#include "light.hpp"
+#include "material.hpp"
 #include "camera.hpp"
 
 struct Vertex {
@@ -16,7 +18,7 @@ public:
     virtual void create(GLuint program);
     virtual void createBuffers();
     virtual void createVertex();
-    virtual void render(const Camera camera);
+    virtual void render(const Camera camera, const Light light);
     virtual void destroy() ;
     void computeNormals();
     // Getters
@@ -73,6 +75,8 @@ protected:
     GLuint m_program{};
 //Base Color
     glm::vec4 m_color{0.f, 0.f, 0.5f, 1.0f};
+//Material
+    Material m_material{};
 //Identity Matrix
     glm::mat4 m_modelMatrix{1.0f};
     glm::mat4 m_masterMatrix{1.0f};

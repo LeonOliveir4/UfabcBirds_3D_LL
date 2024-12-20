@@ -21,10 +21,10 @@ void Fruta::create(GLuint program, std::string fruit_1, std::string fruit_2, std
     m_morre_animation.SetAnimation(std::make_shared<Animation>(keyframes1, 0.5f));
 
 }
-void Fruta::render(Camera camera){
-    m_fruta_1.render(camera);
-    m_fruta_2.render(camera);
-    m_fruta_3.render(camera);
+void Fruta::render(Camera camera, const Light light){
+    m_fruta_1.render(camera, light);
+    m_fruta_2.render(camera, light);
+    m_fruta_3.render(camera, light);
 }
 void Fruta::update(float deltaTime, GameData const &gamedata){
     if(m_isLive == false  && m_timer >= 0){

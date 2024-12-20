@@ -133,22 +133,43 @@ void Model::create(GLuint program) {
     createBuffers();
 }
 
-void Model::render(const Camera camera){//const float *viewMatrix, const float *projMatrix){
+void Model::render(const Camera camera, const Light light){//const float *viewMatrix, const float *projMatrix){
     abcg::glUseProgram(m_program);
 
     auto const viewMatrixLoc{abcg::glGetUniformLocation(m_program, "viewMatrix")};
     auto const projMatrixLoc{abcg::glGetUniformLocation(m_program, "projMatrix")};
     auto const modelMatrixLoc{abcg::glGetUniformLocation(m_program, "modelMatrix")};
     auto const normalMatrixLoc{abcg::glGetUniformLocation(m_program, "normalMatrix")};
+    auto const lightDirLoc{abcg::glGetUniformLocation(m_program, "lightDirWorldSpace")};
+    auto const shininessLoc{abcg::glGetUniformLocation(m_program, "shininess")};
+    auto const IaLoc{abcg::glGetUniformLocation(m_program, "Ia")};
+    auto const IdLoc{abcg::glGetUniformLocation(m_program, "Id")};
+    auto const IsLoc{abcg::glGetUniformLocation(m_program, "Is")};
+    auto const KaLoc{abcg::glGetUniformLocation(m_program, "Ka")};
+    auto const KdLoc{abcg::glGetUniformLocation(m_program, "Kd")};
+    auto const KsLoc{abcg::glGetUniformLocation(m_program, "Ks")};
     auto const colorLoc{abcg::glGetUniformLocation(m_program, "color")};
-
+    //geometry
     abcg::glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &camera.getViewMatrix()[0][0]);
     abcg::glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &camera.getProjMatrix()[0][0]);
     abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &m_modelMatrix[0][0]);
     abcg::glUniform4f(colorLoc, m_color.r,m_color.g, m_color.b, m_color.a);
+    //Light and Materials
+    //Normal
     auto const modelViewMatrix{glm::mat3(camera.getViewMatrix() * m_modelMatrix)};
     auto const normalMatrix{glm::inverseTranspose(modelViewMatrix)};
     abcg::glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, &normalMatrix[0][0]);
+    //Light
+    abcg::glUniform4fv(lightDirLoc, 1, &light.m_lightDir);
+    abcg::glUniform4fv(IaLoc, 1, &light.m_Ia.x);
+    abcg::glUniform4fv(IdLoc, 1, &light.m_Id.x);
+    abcg::glUniform4fv(IsLoc, 1, &light.m_Is.x);
+    //Material
+    abcg::glUniform4fv(KaLoc, 1, &m_material.m_Ka.x);
+    abcg::glUniform4fv(KdLoc, 1, &m_material.m_Kd.x);
+    abcg::glUniform4fv(KsLoc, 1, &m_material.m_Ks.x);
+    abcg::glUniform1f(shininessLoc, m_material.m_shininess);
+
     
 
     abcg::glBindVertexArray(m_VAO);

@@ -102,22 +102,22 @@ void Window::onPaint() {
     abcg::glViewport(0, 0, m_viewportSize.x, m_viewportSize.y);
 
     if (m_gameData.m_state == State::BirdSelection) {
-        m_ground.render(m_camera);
+        m_ground.render(m_camera,m_light);
     } else if (m_gameData.m_state == State::Playing) {
-        m_bird.render(m_camera);
-        fruta1.render(m_camera);
-        fruta2.render(m_camera);
-        fruta3.render(m_camera);
-        fruta4.render(m_camera);
-        fruta5.render(m_camera);
-        fruta6.render(m_camera);
-        fruta7.render(m_camera);
-        fruta8.render(m_camera);
-        fruta9.render(m_camera);
-        fruta10.render(m_camera);
-        fruta11.render(m_camera);
-        fruta12.render(m_camera);
-        m_ground.render(m_camera);
+        m_bird.render(m_camera,m_light);
+        fruta1.render(m_camera,m_light);
+        fruta2.render(m_camera,m_light);
+        fruta3.render(m_camera,m_light);
+        fruta4.render(m_camera,m_light);
+        fruta5.render(m_camera,m_light);
+        fruta6.render(m_camera,m_light);
+        fruta7.render(m_camera,m_light);
+        fruta8.render(m_camera,m_light);
+        fruta9.render(m_camera,m_light);
+        fruta10.render(m_camera,m_light);
+        fruta11.render(m_camera,m_light);
+        fruta12.render(m_camera,m_light);
+        m_ground.render(m_camera,m_light);
     }
     abcg::glUseProgram(0); 
 }

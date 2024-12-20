@@ -6,11 +6,12 @@
 #include "animation.hpp"
 #include "camera.hpp"
 #include "modelObj.hpp"
+#include "light.hpp"
 
 class Bird {
 public:
     virtual void create(GLuint program, std::string bird_path);
-    virtual void render(Camera camera);
+    virtual void render(Camera camera, const Light light);
     void update(float deltaTime, GameData &gamedata);
     void pitch(float speed); //rotacao em x
     void roll(float speed); // rotacao em z

@@ -31,12 +31,12 @@ void Bird::create(GLuint program, std::string bird_path){
     m_asa_esquerda_director.SetAnimation(std::make_shared<Animation>(keyframes1, 0.5f));
     m_asa_direita_director.SetAnimation(std::make_shared<Animation>(keyframes2, 0.5f));
 }
-void Bird::render(Camera camera){
-    m_bico.render(camera);
-    m_corpo.render(camera);
-    m_asa_esquerda.render(camera);
-    m_asa_direita.render(camera);
-    m_rabo.render(camera);
+void Bird::render(Camera camera, const Light light){
+    m_bico.render(camera, light);
+    m_corpo.render(camera, light);
+    m_asa_esquerda.render(camera, light);
+    m_asa_direita.render(camera, light);
+    m_rabo.render(camera, light);
 }
 
 void Bird::pitch(float speed){ //rotacao em x

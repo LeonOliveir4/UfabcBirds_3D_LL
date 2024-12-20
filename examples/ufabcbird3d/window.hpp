@@ -12,6 +12,7 @@
 #include "fruta.hpp"
 #include "camera.hpp"
 #include "birdDescriptions.hpp"
+#include "light.hpp"
 
 class Window : public abcg::OpenGLWindow {
 protected:
@@ -28,6 +29,10 @@ public:
     GameData m_gameData; 
 
 private:
+    //Light properties
+    Light m_light;
+
+
     glm::ivec2 m_viewportSize{};
     Bird m_bird;
     Ground m_ground;

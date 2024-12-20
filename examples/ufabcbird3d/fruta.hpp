@@ -6,11 +6,13 @@
 #include "animation.hpp"
 #include "camera.hpp"
 #include "modelObj.hpp"
+#include "light.hpp"
+#include "material.hpp"
 
 class Fruta {
 public:
     virtual void create(GLuint program, std::string fruit_1, std::string fruit_2 , std::string fruit_3 ,glm::vec4 color1,glm::vec4 color2, glm::vec4 color3);
-    virtual void render(Camera camera);
+    virtual void render(Camera camera, const Light light);
     void update(float deltaTime, GameData const &gamedata);
     virtual void destroy();
 

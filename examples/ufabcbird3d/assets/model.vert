@@ -8,17 +8,46 @@ uniform mat4 viewMatrix;
 uniform mat4 projMatrix;
 uniform mat3 normalMatrix;
 
+// Light properties
+uniform vec4 lightDirWorldSpace;
+uniform vec4 Ia, Id, Is;
+
+// Material properties
+uniform vec4 Ka, Kd, Ks;
+uniform float shininess;
+
 out vec4 fragColor;
 
+vec4 Phong(vec3 N, vec3 L, vec3 V) {
+  N = normalize(N);
+  L = normalize(L);
+
+  // Compute lambertian term
+  float lambertian = max(dot(N, L), 0.0);
+
+  // Compute specular term
+  float specular = 0.0;
+  if (lambertian > 0.0) {
+    // vec3 R = normalize(2.0 * dot(N, L) * N - L);
+    vec3 R = reflect(-L, N);
+    V = normalize(V);
+    float angle = max(dot(R, V), 0.0);
+    specular = pow(angle, shininess);
+  }
+
+  vec4 diffuseColor = Kd * Id * lambertian;
+  vec4 specularColor = Ks * Is * specular;
+  vec4 ambientColor = Ka * Ia;
+
+  return ambientColor + diffuseColor + specularColor;
+}
+
 void main() {
-    //Posição no espaço da camera
-    vec4 posEyeSpace = viewMatrix * modelMatrix * vec4(inPosition, 1);
-
-    float i = 1.0 - (-posEyeSpace.z / 10.);
-    //vec3 N = inNormal;
+    vec3 P = (viewMatrix * modelMatrix * vec4(inPosition, 1.0)).xyz;
     vec3 N = normalMatrix * inNormal;
-    fragColor = vec4((N + 1.0) / 2.0, 1.0);
-    //fragColor = color ;//* vec4(i, i, i, 1.);
+    vec3 L = -(viewMatrix * lightDirWorldSpace).xyz;
+    vec3 V = -P;
 
-    gl_Position = projMatrix * posEyeSpace;
+    fragColor = Phong(N, L, V);
+    gl_Position = projMatrix * vec4(P, 1.0);
 }

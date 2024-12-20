@@ -18,13 +18,25 @@ void Ground::createVertex() {
   }
 }
 
-void Ground::render(Camera camera) {
+void Ground::render(Camera camera, const Light light) {
   abcg::glUseProgram(m_program);
   abcg::glBindVertexArray(m_VAO);
   auto const viewMatrixLoc{abcg::glGetUniformLocation(m_program, "viewMatrix")};
   auto const projMatrixLoc{abcg::glGetUniformLocation(m_program, "projMatrix")};
   auto const modelMatrixLoc{abcg::glGetUniformLocation(m_program, "modelMatrix")};
+  auto const normalMatrixLoc{abcg::glGetUniformLocation(m_program, "normalMatrix")};
+  auto const lightDirLoc{abcg::glGetUniformLocation(m_program, "lightDirWorldSpace")};
+  auto const shininessLoc{abcg::glGetUniformLocation(m_program, "shininess")};
+  auto const IaLoc{abcg::glGetUniformLocation(m_program, "Ia")};
+  auto const IdLoc{abcg::glGetUniformLocation(m_program, "Id")};
+  auto const IsLoc{abcg::glGetUniformLocation(m_program, "Is")};
+  auto const KaLoc{abcg::glGetUniformLocation(m_program, "Ka")};
+  auto const KdLoc{abcg::glGetUniformLocation(m_program, "Kd")};
+  auto const KsLoc{abcg::glGetUniformLocation(m_program, "Ks")};
   auto const colorLoc{abcg::glGetUniformLocation(m_program, "color")};
+
+
+
   // Draw a grid of 2N+1 x 2N+1 tiles on the xz plane, centered around the
   // origin
  auto const N{10};

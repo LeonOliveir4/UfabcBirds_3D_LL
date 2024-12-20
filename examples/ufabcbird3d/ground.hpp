@@ -4,11 +4,12 @@
 #include "abcgOpenGL.hpp"
 #include "camera.hpp"
 #include "model.hpp"
+#include "ligth.hpp"
 
 class Ground : public Model {
 public:
   void createVertex() override;
-  void render(Camera camera) override;
+  void render(Camera camera, const Light light) override;
 
   float getLeftLimit() const { return -25.0f; } // Limite esquerdo
   float getRightLimit() const { return 25.0f; } // Limite direito
