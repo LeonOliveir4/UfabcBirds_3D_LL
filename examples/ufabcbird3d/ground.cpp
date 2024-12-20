@@ -12,6 +12,10 @@ void Ground::createVertex() {
                 0, 2, 3
   };
 
+  m_hasNormals = false;
+  if (!m_hasNormals) {
+    computeNormals();
+  }
 }
 
 void Ground::render(Camera camera) {

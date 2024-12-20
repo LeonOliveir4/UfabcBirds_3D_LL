@@ -7,7 +7,7 @@
 
 struct Vertex {
   glm::vec3 position{};
-
+  glm::vec3 normal{};
   friend bool operator==(Vertex const &, Vertex const &) = default;
 };
 
@@ -18,6 +18,7 @@ public:
     virtual void createVertex();
     virtual void render(const Camera camera);
     virtual void destroy() ;
+    void computeNormals();
     // Getters
     const glm::vec3& getPosition() const { return m_position; }
     float getScale() const { return m_scale; }
@@ -81,6 +82,7 @@ protected:
     glm::mat4 m_matrixRotation{1.0f};
     glm::vec3 m_pivot{0.f, 0.f, 0.f};
 //Index indices and vertex
+    bool m_hasNormals{false};
     std::vector<Vertex> m_vertices;
     std::vector<GLuint> m_indices;
 //Matriz de animacao

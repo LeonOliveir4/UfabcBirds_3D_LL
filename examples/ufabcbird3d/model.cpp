@@ -10,9 +10,43 @@ template <> struct std::hash<Vertex> {
   }
 };
 
+void Model::computeNormals() {
+  // Clear previous vertex normals
+  for (auto &vertex : m_vertices) {
+    vertex.normal = glm::vec3(0.0f);
+  }
+
+  // Compute face normals
+  for (auto const offset : iter::range(0UL, m_indices.size(), 3UL)) {
+    // Get face vertices
+    auto &a{m_vertices.at(m_indices.at(offset + 0))};
+    auto &b{m_vertices.at(m_indices.at(offset + 1))};
+    auto &c{m_vertices.at(m_indices.at(offset + 2))};
+
+    // Compute normal
+    auto const edge1{b.position - a.position};
+    auto const edge2{c.position - b.position};
+    auto const normal{glm::cross(edge1, edge2)};
+
+    // Accumulate on vertices
+    a.normal += normal;
+    b.normal += normal;
+    c.normal += normal;
+  }
+
+  // Normalize
+  for (auto &vertex : m_vertices) {
+    vertex.normal = glm::normalize(vertex.normal);
+  }
+
+  m_hasNormals = true;
+}
+
+
 void Model::createVertex() {
     m_vertices.clear();
     m_indices.clear();
+
     m_vertices = {//x y z
         Vertex{.position = glm::vec3{-0.5f, -0.5f, -0.5f}},
         Vertex{.position =glm::vec3{-0.5f, 0.5f, -0.5f}},
@@ -38,9 +72,19 @@ void Model::createVertex() {
         1, 2, 5,//
         2, 5, 6
     };
+  m_hasNormals = false;
+  if (!m_hasNormals) {
+    computeNormals();
+  }
 }
 
 void Model::createBuffers() {
+    //clear buffers
+    abcg::glDeleteVertexArrays(1, &m_VAO);
+    abcg::glDeleteBuffers(1, &m_VBO);
+    abcg::glDeleteBuffers(1, &m_EBO);
+
+
     abcg::glGenBuffers(1, &m_VBO);
     abcg::glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
     abcg::glBufferData(GL_ARRAY_BUFFER,
@@ -54,15 +98,29 @@ void Model::createBuffers() {
                         sizeof(m_indices.at(0)) * m_indices.size(),
                         m_indices.data(), GL_STATIC_DRAW);
     abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
+    //Vertex array definition
     abcg::glGenVertexArrays(1, &m_VAO);
     abcg::glBindVertexArray(m_VAO);
+    //Vertex bind
     abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
     abcg::glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+    //Vertex atributes: Position
     auto const positionAttribute{abcg::glGetAttribLocation(m_program, "inPosition")};
-    abcg::glVertexAttribPointer(positionAttribute, 3, GL_FLOAT, GL_FALSE,
-                                sizeof(glm::vec3), nullptr);
-    abcg::glEnableVertexAttribArray(positionAttribute);
+    if (positionAttribute >= 0) {
+      abcg::glVertexAttribPointer(positionAttribute, 3, GL_FLOAT, GL_FALSE,
+                                  sizeof(Vertex), nullptr);
+      abcg::glEnableVertexAttribArray(positionAttribute);
+    }
+    //Vertex atributes: Normal
+    auto const normalAttribute{abcg::glGetAttribLocation(m_program, "inNormal")};
+    if (normalAttribute >= 0) {
+      abcg::glEnableVertexAttribArray(normalAttribute);
+      auto const offset{offsetof(Vertex, normal)};
+      abcg::glVertexAttribPointer(normalAttribute, 3, GL_FLOAT, GL_FALSE,
+                                sizeof(Vertex),
+                                reinterpret_cast<void *>(offset));
+    }
+
 
         // End of binding
     abcg::glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -81,12 +139,17 @@ void Model::render(const Camera camera){//const float *viewMatrix, const float *
     auto const viewMatrixLoc{abcg::glGetUniformLocation(m_program, "viewMatrix")};
     auto const projMatrixLoc{abcg::glGetUniformLocation(m_program, "projMatrix")};
     auto const modelMatrixLoc{abcg::glGetUniformLocation(m_program, "modelMatrix")};
+    auto const normalMatrixLoc{abcg::glGetUniformLocation(m_program, "normalMatrix")};
     auto const colorLoc{abcg::glGetUniformLocation(m_program, "color")};
 
     abcg::glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &camera.getViewMatrix()[0][0]);
     abcg::glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &camera.getProjMatrix()[0][0]);
     abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &m_modelMatrix[0][0]);
     abcg::glUniform4f(colorLoc, m_color.r,m_color.g, m_color.b, m_color.a);
+    auto const modelViewMatrix{glm::mat3(camera.getViewMatrix() * m_modelMatrix)};
+    auto const normalMatrix{glm::inverseTranspose(modelViewMatrix)};
+    abcg::glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, &normalMatrix[0][0]);
+    
 
     abcg::glBindVertexArray(m_VAO);
     abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
