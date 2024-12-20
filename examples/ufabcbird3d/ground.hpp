@@ -4,7 +4,7 @@
 #include "abcgOpenGL.hpp"
 #include "camera.hpp"
 #include "model.hpp"
-#include "ligth.hpp"
+#include "light.hpp"
 
 class Ground : public Model {
 public:

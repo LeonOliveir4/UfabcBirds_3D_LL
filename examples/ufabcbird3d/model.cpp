@@ -26,7 +26,7 @@ void Model::computeNormals() {
     // Compute normal
     auto const edge1{b.position - a.position};
     auto const edge2{c.position - b.position};
-    auto const normal{glm::cross(edge2, edge1)};
+    auto const normal{glm::cross(edge1, edge2)};
 
     // Accumulate on vertices
     a.normal += normal;
@@ -160,7 +160,7 @@ void Model::render(const Camera camera, const Light light){//const float *viewMa
     auto const normalMatrix{glm::inverseTranspose(modelViewMatrix)};
     abcg::glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, &normalMatrix[0][0]);
     //Light
-    abcg::glUniform4fv(lightDirLoc, 1, &light.m_lightDir);
+    abcg::glUniform4fv(lightDirLoc, 1,  &light.m_lightDir.x);
     abcg::glUniform4fv(IaLoc, 1, &light.m_Ia.x);
     abcg::glUniform4fv(IdLoc, 1, &light.m_Id.x);
     abcg::glUniform4fv(IsLoc, 1, &light.m_Is.x);

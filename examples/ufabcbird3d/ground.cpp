@@ -52,6 +52,20 @@ void Ground::render(Camera camera, const Light light) {
       // Set color (checkerboard pattern)
       auto const gray{(z + x) % 2 == 0 ? 1.0f : 2.0f};
       abcg::glUniform4f(colorLoc, 0.2, gray *0.4, 0.2, 1.0f);
+          //Normal
+      auto const modelViewMatrix{glm::mat3(camera.getViewMatrix() * m_modelMatrix)};
+      auto const normalMatrix{glm::inverseTranspose(modelViewMatrix)};
+      abcg::glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, &normalMatrix[0][0]);
+      //Light
+      abcg::glUniform4fv(lightDirLoc, 1, &light.m_lightDir.x);
+      abcg::glUniform4fv(IaLoc, 1, &light.m_Ia.x);
+      abcg::glUniform4fv(IdLoc, 1, &light.m_Id.x);
+      abcg::glUniform4fv(IsLoc, 1, &light.m_Is.x);
+      //Material
+      abcg::glUniform4fv(KaLoc, 1, &m_material.m_Ka.x);
+      abcg::glUniform4fv(KdLoc, 1, &m_material.m_Kd.x);
+      abcg::glUniform4fv(KsLoc, 1, &m_material.m_Ks.x);
+      abcg::glUniform1f(shininessLoc, m_material.m_shininess);
 
       abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
      }
