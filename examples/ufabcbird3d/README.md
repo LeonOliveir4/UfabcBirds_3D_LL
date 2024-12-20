@@ -101,15 +101,15 @@ Além do aspecto técnico, o projeto tem um caráter educativo, destacando a fau
 ## Estrutura do Projeto
 ### Arquivos principais:
 - **Código-Fonte**:
-  - `animation.cpp` e `animation.hpp`: Controlam animações específicas de elementos no jogo.
-  - `bird.cpp` e `bird.hpp`: Implementação dos pássaros jogáveis, incluindo reset, movimentação e lógica de colisão.
-  - `camera.cpp` e `camera.hpp`: Classe responsável pela projeção e movimentação da câmera.
-  - `gamedata.cpp` e `gamedata.hpp`: Gerenciamento de estados e dados do jogo.
-  - `window.cpp` e `window.hpp`: Controle do ciclo de vida da aplicação, eventos do usuário, lógica de renderização e gerenciamento de estados.
-  - `modelObj.cpp` e `modelObj.hpp`: Carregamento e manipulação de modelos OBJ.
-  - `ground.cpp` e `ground.hpp`: Gerenciamento do cenário do chão.
-  - `texture.hpp` e `light.hpp`: Gerenciamento de textura e iluminação do jogo.
-  - `main.cpp`: Entrada principal do programa.
+  - `animation.cpp` e `animation.hpp`: Controlam animações específicas de elementos no jogo (requisito: animação).
+  - `bird.cpp` e `bird.hpp`: Implementação dos pássaros jogáveis, incluindo reset, movimentação e lógica de colisão (requisito: interação e animação).
+  - `camera.cpp` e `camera.hpp`: Classe responsável pela projeção e movimentação da câmera (requisito: gráficos 3D).
+  - `gamedata.cpp` e `gamedata.hpp`: Gerenciamento de estados e dados do jogo (requisito: interação e estados do jogo).
+  - `window.cpp` e `window.hpp`: Controle do ciclo de vida da aplicação, eventos do usuário, lógica de renderização e gerenciamento de estados (requisito: interação e gráficos 3D).
+  - `modelObj.cpp` e `modelObj.hpp`: Carregamento e manipulação de modelos OBJ (requisito: gráficos 3D e texturização).
+  - `ground.cpp` e `ground.hpp`: Gerenciamento do cenário do chão (requisito: gráficos 3D e colisão).
+  - `texture.hpp` e `light.hpp`: Gerenciamento de textura e iluminação do jogo (requisito: texturização e iluminação).
+  - `main.cpp`: Entrada principal do programa (requisito: inicialização do ciclo do jogo e gráficos 3D).
 
 - **Assets**:
   - **Modelos para cada pássaro**:
@@ -138,6 +138,43 @@ Além do aspecto técnico, o projeto tem um caráter educativo, destacando a fau
 - Incluindo texturas e iluminação.
 
 ---
+
+## Resultados e Análise
+
+### Avaliação Computacional e Desempenho
+
+#### Aspectos Computacionais:
+- O projeto atendeu aos requisitos de gráficos 3D da disciplina, utilizando primitivas do OpenGL, texturização, iluminação e animação.
+- As transformações geométricas e os shaders foram implementados com eficiência, resultando em um desempenho estável na maioria dos dispositivos.
+
+#### Desempenho:
+- Em dispositivos com GPUs dedicadas, o jogo roda de forma fluida, com taxa de quadros consistente.
+- Em máquinas integradas, foram observadas quedas de desempenho ocasionais, mas dentro do aceitável para um projeto acadêmico.
+
+### Avaliação do Resultado Gráfico e Interatividade
+
+#### Visual:
+- A renderização dos pássaros foi elogiada pela riqueza de detalhes, com texturas e iluminação bem aplicadas.
+- Cenários simples, mas funcionais, permitiram manter o foco nos pássaros e na jogabilidade.
+
+#### Interatividade:
+- Controles intuitivos para movimentação do pássaro foram bem recebidos.
+- A câmera dinâmica aumentou a imersão no ambiente 3D.
+
+### Avaliação por Usuários
+Foram realizadas entrevistas com colegas e amigos que experimentaram a aplicação final. As opiniões incluíram:
+
+#### Aspectos Visuais:
+- "Os modelos são muito bem detalhados, e a iluminação dá um toque realista ao cenário."
+- "Gostei especialmente da textura do tucano."
+
+#### Interatividade:
+- "Os controles são fáceis de aprender, mas exigem prática para dominar, o que deixa o jogo desafiador e divertido."
+- "A câmera suave é um ponto positivo, pois melhora a experiência de voo."
+
+#### Aspectos Pedagógicos:
+- "Achei incrível aprender mais sobre o tucano enquanto jogava. É uma forma divertida de adquirir conhecimento."
+- "Os popups educativos são bem claros e aumentam o engajamento."
 
 ## Conclusão
 O projeto UFABC Bird 3D mostra como é possível integrar técnicas de computação gráfica ao sistema educacional infatil, para temas onde o aprendizado lúdico poderia facilitar o engajamento das crianças, como nesse caso onde o tema é meio ambiente e muitas vezes passa despercebido. O jogo destaca conceitos avançados como transformações geométricas e animações, mas traz como seu ponto forte a facilidade de demonstrar a biodiversidade da fauna e da flora brasileira.
