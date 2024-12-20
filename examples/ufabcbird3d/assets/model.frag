@@ -25,7 +25,7 @@ uniform sampler2D diffuseTex;
 uniform vec4 color;
 
 // Mapping mode
-// 0: poure_material; 1: texture
+// 0: mix color; 1: texture 2: material definition
 uniform int materialMode;
 
 out vec4 outColor;
@@ -92,15 +92,13 @@ void main() {
         texCoord = fragTexCoord;
         colorFinal = BlinnPhong(fragN, fragL, fragV, texCoord);
       }else {
-        colorFinal = color;
+        if(materialMode == 2){
+          colorFinal = BlinnPhongPureMaterial(fragN, fragL, fragV);  
+        }else{
+          colorFinal = color;
+        }
     }
   }
-  
-  
-  
-  
-
-
   outColor = colorFinal;
 
 }

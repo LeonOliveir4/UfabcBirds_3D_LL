@@ -17,7 +17,7 @@ template <> struct std::hash<Vertex> {
 void ModelObj::loadDiffuseTexture(std::string_view path) {
   if (!std::filesystem::exists(path))
     return;
-
+  m_materialMode = 1; //Usa textura 
   abcg::glDeleteTextures(1, &m_diffuseTexture);
   m_diffuseTexture = abcg::loadOpenGLTexture({.path = path});
 }
@@ -81,7 +81,6 @@ void ModelObj::loadObj() {
       // Texture coordinates
       glm::vec2 texCoord{};
       if (index.texcoord_index >= 0) {
-        m_materialMode = 1; //Usa textura UV
         m_hasTexCoords = true;
         auto const texCoordsStartIndex{2 * index.texcoord_index};
         texCoord = {attrib.texcoords.at(texCoordsStartIndex + 0),
@@ -116,6 +115,7 @@ void ModelObj::loadObj() {
       std::cout<<basePath + mat.diffuse_texname<<"\n";
       loadDiffuseTexture(basePath + mat.diffuse_texname);
     } else {
+      m_materialMode = 2;
       std::cout<<"nao tem, textura\n";
     }
   } else {
