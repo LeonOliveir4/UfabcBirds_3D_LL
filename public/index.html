@@ -1,14 +1,17 @@
 <!doctype html>
 <html lang="en-us">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>UFABC Bird - 3D</title>
   <style>
     body {
       font-family: arial;
     }
+
     .emscripten {
       padding: 0;
       padding-right: 0;
@@ -17,6 +20,7 @@
       display: block;
       border-radius: 6px;
     }
+
     textarea.emscripten {
       resize: none;
       margin: 6px auto;
@@ -30,9 +34,11 @@
       border-radius: 6px;
       background: #e7e8ea
     }
+
     div.emscripten {
       text-align: center;
     }
+
     /* div.emscripten_border { border: 1px solid black; } */
     /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
     canvas.emscripten {
@@ -41,6 +47,7 @@
       background-color: #00000000;
       width: 1200px;
       height: 800px;
+
       image-rendering: optimizeSpeed;
       image-rendering: -moz-crisp-edges;
       image-rendering: -o-crisp-edges;
@@ -50,6 +57,7 @@
       image-rendering: pixelated;
       -ms-interpolation-mode: nearest-neighbor;
     }
+
     progress {
       margin: 0px auto;
       border: 0px none;
@@ -59,19 +67,23 @@
       background-color: rgb(220, 220, 220);
       color: #aaa;
     }
+
     progress::-webkit-progress-bar {
       border-radius: 35px;
       background-color: rgb(220, 220, 220);
       width: 100%;
     }
+
     progress::-webkit-progress-value {
       border-radius: 35px;
       background-color: #aaa !important;
     }
+
     progress::-moz-progress-bar {
       border-radius: 25px;
       background-color: #aaa !important;
     }
+
     .spinner {
       height: 20px;
       width: 20px;
@@ -87,44 +99,53 @@
       border-radius: 100%;
       background-color: rgba(255, 255, 255, 0);
     }
+
     @-webkit-keyframes rotation {
       from {
         -webkit-transform: rotate(0deg);
       }
+
       to {
         -webkit-transform: rotate(360deg);
       }
     }
+
     @-moz-keyframes rotation {
       from {
         -moz-transform: rotate(0deg);
       }
+
       to {
         -moz-transform: rotate(360deg);
       }
     }
+
     @-o-keyframes rotation {
       from {
         -o-transform: rotate(0deg);
       }
+
       to {
         -o-transform: rotate(360deg);
       }
     }
+
     @keyframes rotation {
       from {
         transform: rotate(0deg);
       }
+
       to {
         transform: rotate(360deg);
       }
     }
   </style>
 </head>
+
 <body>
   <figure style="overflow:visible;" id="spinner">
     <div class="spinner"></div>
-    <center style="margin-top:0.5em"><strong>Hello, world!</strong></center>
+    <center style="margin-top:0.5em"><strong>UFABC BIRDS 3D</strong></center>
   </figure>
   <div class="emscripten" id="status">Downloading...</div>
   <div class="emscripten">
@@ -134,17 +155,22 @@
     <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
   </div>
   <textarea class="emscripten" id="output" rows="6"></textarea>
+
   <script type='text/javascript'>
     function isMobile() {
       return (/Mobi/i.test(navigator.userAgent) || /Android/i.test(navigator.userAgent));
     }
+
     var canvas = document.getElementById('canvas');
+
     function addErrorMessage(msg) {
       document.getElementById('output').innerHTML += ('<br><font color="red">' + msg + '</font>');
     }
+
     // Setup fullscreen API functions for cross-browser support
     canvas.requestFullscreen = canvas.webkitRequestFullscreen || canvas.mozRequestFullScreen || canvas.msRequestFullscreen;
     if (!canvas.requestFullscreen) addErrorMessage('Error: Full screen mode not available');
+
     function toggleFullscreen() {
       if (!document.fullscreenElement) {
         canvas.focus();
@@ -155,9 +181,11 @@
         }
       }
     }
+
     var statusElement = document.getElementById('status');
     var progressElement = document.getElementById('progress');
     var spinnerElement = document.getElementById('spinner');
+
     var Module = {
       preRun: [],
       postRun: [],
@@ -179,7 +207,9 @@
       },
       canvas: (function () {
         var canvas = document.getElementById('canvas');
+
         canvas.addEventListener("webglcontextlost", function (e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+
         return canvas;
       })(),
       setStatus: function (text) {
@@ -227,4 +257,5 @@
   </script>
   <script async type="text/javascript" src="ufabcbird3d.js"></script>
 </body>
+
 </html>
