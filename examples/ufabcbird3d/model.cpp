@@ -26,7 +26,7 @@ void Model::computeNormals() {
     // Compute normal
     auto const edge1{b.position - a.position};
     auto const edge2{c.position - b.position};
-    auto const normal{glm::cross(edge1, edge2)};
+    auto const normal{glm::cross(edge2, edge1)};
 
     // Accumulate on vertices
     a.normal += normal;

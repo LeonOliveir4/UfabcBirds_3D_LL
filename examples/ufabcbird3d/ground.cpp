@@ -8,8 +8,8 @@ void Ground::createVertex() {
                 Vertex{.position = glm::vec3(+3.0f, 0.0f, -3.0f)},
                 Vertex{.position = glm::vec3(+3.0f, 0.0f, +3.0f)}};
   m_indices = {
-                0, 1, 2,
-                0, 2, 3
+                2, 1, 0,
+                3, 2, 0
   };
 
   m_hasNormals = false;
