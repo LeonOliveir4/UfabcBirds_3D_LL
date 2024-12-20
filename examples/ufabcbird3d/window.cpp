@@ -59,6 +59,7 @@ void Window::onCreate() {
                                             .stage = abcg::ShaderStage::Fragment}});
 
     m_camera.setFollow(true);
+    m_ground2.create(m_program, abcg::Application::getAssetsPath() + "ground/corpo.obj");
     m_ground.create(m_program);
     createFrutas();
 
@@ -102,7 +103,8 @@ void Window::onPaint() {
     abcg::glViewport(0, 0, m_viewportSize.x, m_viewportSize.y);
 
     if (m_gameData.m_state == State::BirdSelection) {
-        m_ground.render(m_camera,m_light);
+       // m_ground.render(m_camera,m_light);
+        m_ground2.render(m_camera,m_light);
     } else if (m_gameData.m_state == State::Playing) {
         m_bird.render(m_camera,m_light);
         fruta1.render(m_camera,m_light);
@@ -117,7 +119,8 @@ void Window::onPaint() {
         fruta10.render(m_camera,m_light);
         fruta11.render(m_camera,m_light);
         fruta12.render(m_camera,m_light);
-        m_ground.render(m_camera,m_light);
+      // m_ground.render(m_camera,m_light);
+        m_ground2.render(m_camera,m_light);
     }
     abcg::glUseProgram(0); 
 }
@@ -307,6 +310,7 @@ void Window::onDestroy() {
   fruta5.destroy();
   fruta6.destroy();
    m_ground.destroy();
+   m_ground2.destroy();
    m_bird.destroy();
 }
 

@@ -36,6 +36,7 @@ private:
     glm::ivec2 m_viewportSize{};
     Bird m_bird;
     Ground m_ground;
+    ModelObj m_ground2;
     Fruta fruta1;
     Fruta fruta2;
     Fruta fruta3;
