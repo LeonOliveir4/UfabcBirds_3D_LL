@@ -21,10 +21,13 @@ glm::mat4 Animation::GetTransform(float time) const {
     float factor = (time - k1.time) / (k2.time - k1.time);
 
     Keyframe k_interpoled = Interpolate(k1, k2, factor);
-    glm::mat4 translation = glm::translate(glm::mat4(1.0f), k_interpoled.position);
+
+    glm::mat4 pivotTranslation = glm::translate(glm::mat4(1.0f), k_interpoled.rotationPivot);
     glm::mat4 rotation = glm::mat4(k_interpoled.rotation);
+    glm::mat4 inversePivotTranslation = glm::translate(glm::mat4(1.0f), -k_interpoled.rotationPivot);
+    glm::mat4 translation = glm::translate(glm::mat4(1.0f), k_interpoled.position);
     glm::mat4 scale = glm::scale(glm::mat4(1.0f), k_interpoled.scale);
-    return translation * rotation * scale;
+    return translation * pivotTranslation * rotation * inversePivotTranslation * scale;
 }
 
 Keyframe Animation::Interpolate(const Keyframe& k1, const Keyframe& k2, float factor) const {
@@ -32,6 +35,7 @@ Keyframe Animation::Interpolate(const Keyframe& k1, const Keyframe& k2, float fa
     result.position = glm::mix(k1.position, k2.position, factor);
     result.rotation = glm::mat4_cast(glm::slerp(glm::quat_cast(k1.rotation), glm::quat_cast(k2.rotation), factor));
     result.scale = glm::mix(k1.scale, k2.scale, factor);
+    result.rotationPivot = glm::mix(k1.rotationPivot, k2.rotationPivot, factor);
     return result;
 }
 

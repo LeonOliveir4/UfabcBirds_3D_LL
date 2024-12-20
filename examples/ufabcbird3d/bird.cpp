@@ -17,15 +17,15 @@ void Bird::create(GLuint program, std::string bird_path){
 
     //animate
     std::vector<Keyframe> keyframes1 = {
-        {0.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(36.f),  glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f)},
-        {0.25f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(-24.f), glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f)},
-        {0.5f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(36.f),  glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f)}
+        {0.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(36.f),  glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f),glm::vec3(0.f, 1.0f, 0.0f)},
+        {0.25f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(-24.f), glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f),glm::vec3(0.f, 1.0f, 0.0f)},
+        {0.5f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(36.f),  glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f),glm::vec3(0.f, 1.0f, 0.0f)}
     };
 
     std::vector<Keyframe> keyframes2 = {
-        {0.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(-36.0f), glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f)},
-        {0.25f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(24.0f),  glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f)},
-        {0.5f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(-36.0f), glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f)}
+        {0.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(-36.0f), glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f),glm::vec3(0.f, 1.0f, 0.0f)},
+        {0.25f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(24.0f),  glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f),glm::vec3(0.f, 1.0f, 0.0f)},
+        {0.5f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(-36.0f), glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f),glm::vec3(0.f, 1.0f, 0.0f)}
     };
 
     m_asa_esquerda_director.SetAnimation(std::make_shared<Animation>(keyframes1, 0.5f));

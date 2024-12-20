@@ -14,9 +14,9 @@ void Fruta::create(GLuint program, std::string fruit_1, std::string fruit_2, std
     m_fruta_3.setColor(color3);
 
     std::vector<Keyframe> keyframes1 = {
-        {0.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(0.f),  glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f)},
-        {0.25f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(0.f), glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(0.8f)},
-        {0.5f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(0.f),  glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(0.0f)}
+        {0.0f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(0.f),  glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(1.0f), glm::vec3(0.f, 0.0f, 0.0f)},
+        {0.25f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(0.f), glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(0.8f), glm::vec3(0.f, 0.0f, 0.0f)},
+        {0.5f, glm::vec3(0.0f, 0.0f, 0.0f), glm::rotate(glm::mat4(1.0f), glm::radians(0.f),  glm::vec3(0.f, 0.0f, 1.0f)), glm::vec3(0.0f), glm::vec3(0.f, 0.0f, 0.0f)}
     };
     m_morre_animation.SetAnimation(std::make_shared<Animation>(keyframes1, 0.5f));
 

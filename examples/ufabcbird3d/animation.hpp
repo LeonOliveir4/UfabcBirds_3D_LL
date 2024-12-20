@@ -9,6 +9,7 @@ struct Keyframe {
     glm::vec3 position;
     glm::mat4 rotation;
     glm::vec3 scale;
+    glm::vec3 rotationPivot;
 };
 
 class Animation {
