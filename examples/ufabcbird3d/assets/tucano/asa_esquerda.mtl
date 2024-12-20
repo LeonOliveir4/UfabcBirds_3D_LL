@@ -10,4 +10,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd /home/leop/Downloads/b8d914d862f14332a51223fec4553c95_obj/RGB_b327ed1ff4494b188d6537fc7dd5c6e7_Toucan.png
+map_Kd difuse.png

@@ -10,8 +10,10 @@
 struct Vertex {
   glm::vec3 position{};
   glm::vec3 normal{};
+  glm::vec2 texCoord{};
   friend bool operator==(Vertex const &, Vertex const &) = default;
 };
+
 
 class Model{
 public:
@@ -68,6 +70,8 @@ public:
     }
 
 protected:
+    bool m_hasTexCoords{false};
+    int m_materialMode{0};
 //Opengl buffers and program
     GLuint m_VAO{};
     GLuint m_VBO{};
@@ -77,6 +81,8 @@ protected:
     glm::vec4 m_color{0.f, 0.f, 0.5f, 1.0f};
 //Material
     Material m_material{};
+//Texture
+    GLuint m_diffuseTexture{};
 //Identity Matrix
     glm::mat4 m_modelMatrix{1.0f};
     glm::mat4 m_masterMatrix{1.0f};

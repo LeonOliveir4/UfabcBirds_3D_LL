@@ -14,6 +14,7 @@ public:
 protected:
   std::string_view m_path{};
   bool m_standardize{false};
+  void loadDiffuseTexture(std::string_view path);
   void loadObj();
 };
 

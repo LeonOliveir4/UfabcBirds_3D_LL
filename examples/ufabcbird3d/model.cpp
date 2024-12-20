@@ -120,6 +120,15 @@ void Model::createBuffers() {
                                 sizeof(Vertex),
                                 reinterpret_cast<void *>(offset));
     }
+      auto const texCoordAttribute{
+      abcg::glGetAttribLocation(m_program, "inTexCoord")};
+    if (texCoordAttribute >= 0) {
+      abcg::glEnableVertexAttribArray(texCoordAttribute);
+      auto const offset{offsetof(Vertex, texCoord)};
+      abcg::glVertexAttribPointer(texCoordAttribute, 2, GL_FLOAT, GL_FALSE,
+                                  sizeof(Vertex),
+                                  reinterpret_cast<void *>(offset));
+    }
 
 
         // End of binding
@@ -149,10 +158,16 @@ void Model::render(const Camera camera, const Light light){//const float *viewMa
     auto const KdLoc{abcg::glGetUniformLocation(m_program, "Kd")};
     auto const KsLoc{abcg::glGetUniformLocation(m_program, "Ks")};
     auto const colorLoc{abcg::glGetUniformLocation(m_program, "color")};
+    auto const diffuseTexLoc{abcg::glGetUniformLocation(m_program, "diffuseTex")};
+    auto const materialModeLoc{abcg::glGetUniformLocation(m_program, "materialMode")};
     //geometry
     abcg::glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &camera.getViewMatrix()[0][0]);
     abcg::glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &camera.getProjMatrix()[0][0]);
     abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &m_modelMatrix[0][0]);
+
+    abcg::glUniform1i(diffuseTexLoc, 0);
+    abcg::glUniform1i(materialModeLoc, m_materialMode);//arrumar
+
     abcg::glUniform4f(colorLoc, m_color.r,m_color.g, m_color.b, m_color.a);
     //Light and Materials
     //Normal
@@ -169,7 +184,19 @@ void Model::render(const Camera camera, const Light light){//const float *viewMa
     abcg::glUniform4fv(KdLoc, 1, &m_material.m_Kd.x);
     abcg::glUniform4fv(KsLoc, 1, &m_material.m_Ks.x);
     abcg::glUniform1f(shininessLoc, m_material.m_shininess);
+//Texture
 
+        abcg::glActiveTexture(GL_TEXTURE0);
+        abcg::glBindTexture(GL_TEXTURE_2D, m_diffuseTexture);
+
+        // Set minification and magnification parameters
+        abcg::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        abcg::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        // Set texture wrapping parameters
+        abcg::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        abcg::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//
     
 
     abcg::glBindVertexArray(m_VAO);
@@ -198,6 +225,7 @@ void Model::standardize() {
 }
 
 void Model::destroy(){
+  abcg::glDeleteTextures(1, &m_diffuseTexture);
   abcg::glDeleteBuffers(1, &m_EBO);
   abcg::glDeleteBuffers(1, &m_VBO);
   abcg::glDeleteVertexArrays(1, &m_VAO);
