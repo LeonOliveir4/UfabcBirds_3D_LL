@@ -5,7 +5,7 @@
 #include "abcgOpenGL.hpp"
 
 enum class Input { PitchPos, PitchNeg, YawPos, YawNeg, RollPos, RollNeg, Restart};
-enum class State { GameOver, Playing};
+enum class State { BirdSelection, Playing, GameOver };
 
 struct GameData {
     State m_state{State::Playing};
